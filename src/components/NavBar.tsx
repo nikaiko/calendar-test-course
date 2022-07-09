@@ -2,12 +2,14 @@ import { Menu, Row } from "antd";
 import { Header } from "antd/lib/layout/layout";
 import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
+import { useActions } from "../hooks/useActions";
 import { useTypedSelector } from "../hooks/useTypedSelector";
 import { RouteNames } from "../router";
 
 const NavBar: FC = () => {
   const navigate = useNavigate();
-  const { isAuth } = useTypedSelector((state) => state.auth);
+  const { isAuth, user } = useTypedSelector((state) => state.auth);
+  const { logout } = useActions();
 
   return (
     <Header>
@@ -15,9 +17,9 @@ const NavBar: FC = () => {
         <Menu theme="dark" mode="horizontal" selectable={false}>
           {isAuth ? (
             <>
-              <div style={{ color: "white" }}>nikaiko</div>
-              <Menu.Item onClick={() => console.log("Exit")} key={1}>
-                Exit
+              <div style={{ color: "white" }}>{user.username}</div>
+              <Menu.Item onClick={() => logout()} key={1}>
+                Выйти
               </Menu.Item>
             </>
           ) : (
